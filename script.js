@@ -117,8 +117,8 @@ const displayMovement = function(acc, sort = false){
   if(sort) combinedMovsDates.sort((a,b) => a.movement - b.movement)
 
   combinedMovsDates.forEach(function(obj , i){
-    const {movement, movementDate}
-    const type = mov > 0 ? 'deposit': 'withdrawal'
+    const {movement, movementDate} = obj;
+    const type = movement > 0 ? 'deposit': 'withdrawal'
 
     const date = new Date(movementDate)
     const day = `${date.getDate()}`.padStart(2,0);
@@ -135,7 +135,7 @@ const displayMovement = function(acc, sort = false){
     
         <div class="movements__date">${displayDate}</div>
     
-        <div class="movements__value">${mov.toFixed(2)}€</div>
+        <div class="movements__value">${movement.toFixed(2)}€</div>
       </div>
     `;
 
