@@ -108,12 +108,19 @@ const inputClosePin = document.querySelector('.form__input--pin');
 const displayMovement = function(acc, sort = false){
   containerMovements.innerHTML = '';
 
-  const movs = sort ? acc.movements.slice().sort((a,b) => a - b): acc.movements
+  // Cobine both arrays movements and date 
+  const combinedMovsDates = acc.movements.map((mov, i) => ({
+    movement: mov, 
+    movementDate: acc.movementsDates.at(i),
+  }));
 
-  movs.forEach(function(mov , i){
+  if(sort) combinedMovsDates.sort((a,b) => a.movement - b.movement)
+
+  combinedMovsDates.forEach(function(obj , i){
+    const {movement, movementDate}
     const type = mov > 0 ? 'deposit': 'withdrawal'
 
-    const date = new Date(acc.movementsDates[i])
+    const date = new Date(movementDate)
     const day = `${date.getDate()}`.padStart(2,0);
     const month = `${date.getMonth()+1}`.padStart(2,0);;
     const year = date.getFullYear();
@@ -279,7 +286,7 @@ btnClose.addEventListener('click', function(e){
 let sorted = false;
 btnSort.addEventListener('click', function(e){
   e.preventDefault();
-  displayMovement(currentAccount.movements, !sorted);
+  displayMovement(currentAccount, !sorted);
   sorted = !sorted
 })
 
