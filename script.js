@@ -17,7 +17,6 @@ const account1 = {
     '2020-07-12T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'pt-PT',
 };
 
 const account2 = {
@@ -36,7 +35,6 @@ const account2 = {
     '2020-07-26T12:01:20.894Z',
   ],
   currency: 'USD',
-  locale: 'en-US',
 };
 
 const account3 = {
@@ -55,7 +53,6 @@ const account3 = {
     '2020-07-12T10:51:36.790Z',
   ],
   currency: 'EUR',
-  locale: 'pt-PT',
 };
 
 const account4 = {
@@ -73,8 +70,7 @@ const account4 = {
     '2020-07-11T23:36:17.929Z',
     '2020-07-12T10:51:36.790Z',
   ],
-  currency: 'EUR',
-  locale: 'pt-PT',
+  currency: 'PKR',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -113,7 +109,7 @@ const formatMovementDate = function(date){
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
   else {
-    const day = `${date.getDate()}`.padStart(2,0);
+    const day = `${date.getDate()}`.padStart(2,'0');
     const month = `${date.getMonth()+1}`.padStart(2,0);;
     const year = date.getFullYear();
     return `${day}/${month}/${year}`
@@ -218,13 +214,19 @@ btnLogin.addEventListener('click', function(e){
     labelWelcome.textContent = `Welcome Back, ${currentAccount.owner.split(' ')[0]}`
     containerApp.style.opacity = 100;
 
+    
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2,0);
-    const month = `${now.getMonth()+1}`.padStart(2,0);;
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      weekday: 'short',
+    }
+    const locale = navigator.language;
+    labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
+    
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
