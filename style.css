@@ -4,6 +4,7 @@
  * serif numerals for financial gravitas, thin ledger-style rules
  * instead of card shadows, restrained gold as the single accent.
  * Structure/classes are unchanged from the original — styling only.
+ * Responsive from ~320px phones up through desktop.
  */
 
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap");
@@ -29,10 +30,13 @@
   --font-ui: "Inter", sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: inherit;
+  min-width: 0;
 }
 
 html {
@@ -44,13 +48,15 @@ body {
   font-family: var(--font-ui);
   color: var(--color-ink);
   background-color: var(--color-bg);
-  height: 100vh;
+  min-height: 100vh;
   padding: 2rem;
 }
 
 /* NAV */
 nav {
   display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 2rem;
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem 2rem;
@@ -61,15 +67,22 @@ nav {
   font-size: 1.9rem;
   font-weight: 500;
   color: var(--color-navy);
+  order: 1;
 }
 
 .logo {
   height: 4.4rem;
   filter: grayscale(1) brightness(0) opacity(0.82);
+  order: 2;
 }
 
 .login {
   display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  order: 3;
+  flex: 1 1 100%;
+  justify-content: center;
 }
 
 .login__input {
@@ -80,8 +93,10 @@ nav {
   font-family: var(--font-ui);
   text-align: center;
   width: 12rem;
+  flex: 1 1 12rem;
+  max-width: 16rem;
   border-radius: 0.5rem;
-  margin-right: 1rem;
+  margin-right: 0;
   color: var(--color-ink);
   transition: border-color 0.25s;
 }
@@ -100,6 +115,7 @@ nav {
   background: var(--color-navy);
   width: 3.6rem;
   height: 3.6rem;
+  flex: 0 0 3.6rem;
   border-radius: 0.5rem;
   font-size: 1.8rem;
   color: var(--color-surface);
@@ -123,6 +139,7 @@ nav {
 /* MAIN */
 .app {
   position: relative;
+  width: 100%;
   max-width: 100rem;
   margin: 3.5rem auto;
   display: grid;
@@ -137,6 +154,8 @@ nav {
 .balance {
   grid-column: 1 / span 2;
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2rem;
   align-items: flex-end;
   justify-content: space-between;
   padding-bottom: 1.4rem;
@@ -164,7 +183,7 @@ nav {
 
 .balance__value {
   font-family: var(--font-display);
-  font-size: 4.4rem;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
   font-weight: 500;
   color: var(--color-navy);
   font-variant-numeric: tabular-nums;
@@ -176,12 +195,15 @@ nav {
   background-color: var(--color-surface);
   border: 1px solid var(--color-hairline);
   border-radius: 0.8rem;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .movements__row {
-  padding: 2rem 3.2rem;
+  padding: 1.8rem 2.2rem;
   display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.6rem;
   align-items: center;
   border-bottom: 1px solid var(--color-hairline);
 }
@@ -197,6 +219,7 @@ nav {
   padding: 0.3rem 1.1rem;
   border-radius: 10rem;
   margin-right: 2rem;
+  white-space: nowrap;
 }
 
 .movements__date {
@@ -226,6 +249,8 @@ nav {
 .summary {
   grid-row: 5 / 6;
   display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.6rem;
   align-items: baseline;
   padding: 0 0.3rem;
   margin-top: 0.6rem;
@@ -273,7 +298,7 @@ nav {
 /* OPERATIONS */
 .operation {
   border-radius: 0.8rem;
-  padding: 2.6rem 3.6rem;
+  padding: 2.4rem 2.8rem;
   color: var(--color-surface);
 }
 
@@ -302,6 +327,7 @@ h2 {
   grid-template-columns: 2.5fr 2.5fr 1fr;
   grid-template-rows: auto auto;
   gap: 0.5rem 1rem;
+  align-items: center;
 }
 
 .form.form--loan {
@@ -344,6 +370,7 @@ h2 {
   border: none;
   border-radius: 0.5rem;
   font-size: 1.7rem;
+  min-height: 3.4rem;
   background-color: var(--color-gold);
   color: var(--color-navy);
   cursor: pointer;
@@ -368,4 +395,128 @@ h2 {
   font-weight: 600;
   color: var(--color-navy);
   font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   RESPONSIVE
+   Breakpoints: >1024px desktop (default above),
+   641–1024px tablet, ≤640px phone, plus a short-viewport tweak.
+   ============================================================ */
+
+/* TABLET — tighten the grid, keep two columns */
+@media (max-width: 1024px) {
+  .app {
+    max-width: 78rem;
+    grid-template-rows: auto repeat(3, 14rem) auto;
+    gap: 1.6rem;
+  }
+
+  .operation {
+    padding: 2.2rem 2.4rem;
+  }
+}
+
+/* PHONE — single column, stacked operations, roomier touch targets */
+@media (max-width: 640px) {
+  body {
+    padding: 1.2rem;
+  }
+
+  nav {
+    padding: 0.2rem 0.6rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .welcome {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .login__input {
+    flex: 1 1 40%;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto;
+    gap: 1.4rem;
+    margin: 2rem auto;
+  }
+
+  .balance {
+    grid-column: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .movements {
+    grid-row: auto;
+    max-height: 32rem;
+  }
+
+  .movements__row {
+    padding: 1.5rem 1.8rem;
+  }
+
+  .movements__value {
+    margin-left: 0;
+    flex: 1 1 100%;
+    text-align: right;
+  }
+
+  .summary {
+    grid-row: auto;
+    justify-content: space-between;
+  }
+
+  .summary__value {
+    margin-right: 0;
+  }
+
+  .btn--sort {
+    flex: 0 0 auto;
+  }
+
+  .operation {
+    padding: 2rem 2rem;
+  }
+
+  .form,
+  .form.form--loan {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 0.8rem;
+  }
+
+  .form__label,
+  .form__label--loan {
+    grid-row: auto;
+    text-align: left;
+    font-size: 1.25rem;
+  }
+
+  .form__btn {
+    width: 100%;
+    padding: 0.9rem;
+  }
+
+  .logout-timer {
+    text-align: center;
+  }
+}
+
+/* VERY SMALL PHONES */
+@media (max-width: 360px) {
+  html {
+    font-size: 56%;
+  }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
