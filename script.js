@@ -211,7 +211,7 @@ const updateUI = function(acc){
 
 
 const startLogOutTimer = function () {
-  // Set time to 5 minutes
+  // Set time to 2 minutes
   let time = 120;
 
   const tick = function () {
