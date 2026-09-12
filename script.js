@@ -334,7 +334,7 @@ btnLoan.addEventListener('click', function(e){
 
 
 btnClose.addEventListener('click', function(e){
-  e.preventDefault('');
+  e.preventDefault();
   
   if(currentAccount.userName === inputCloseUsername.value && currentAccount.pin === +(inputClosePin.value)){
     const index = accounts.findIndex(acc => acc.userName === currentAccount.userName)
@@ -345,8 +345,12 @@ btnClose.addEventListener('click', function(e){
     
     // Hide UI
     containerApp.style.opacity = 0
+
+    labelWelcome.textContent = 'Log in to get Started';
+    currentAccount = null;
   }
   inputCloseUsername.value = inputClosePin.value = '';
+  
 })
 
 
